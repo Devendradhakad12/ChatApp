@@ -1,36 +1,43 @@
-import { Fragment } from "react"
+import { Link } from "react-router-dom"
 
 const Home = () => {
     const users = [
         {
             name: "devndra Dhakad",
-            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg",
+            id: "ernnvnromvtn"
         },
 
         {
             name: "ajay dhakad ",
-            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg",
+            id: "ernnvnromvtn"
         },
 
         {
             name: "priyanshu dhakad",
-            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg",
+            id: "ernnvnromvtn"
         },
         {
             name: "priyanshu dhakad",
-            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg",
+            id: "ernnvnromvtn"
         },
         {
             name: "priyanshu dhakad",
-            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg",
+            id: "ernnvnromvtn"
         },
         {
             name: "priyanshu dhakad",
-            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg",
+            id: "ernnvnromvtn"
         },
         {
             name: "priyanshu dhakad",
-            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            icon: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg",
+            id: "ernnvnromvtn"
         },
     ]
     return (
@@ -55,7 +62,7 @@ const Home = () => {
                 <div className="overflow-auto scroll-hide h-[80%] mt-7">
                     {
                         users.map((user, i) => (
-                            <Fragment key={i}>
+                            <Link to={`/${user.id}`} key={i}>
                                 <div className="max-w-md mt-1 sm:mx-auto mx-3 h-[80px] px-3 py-1 flex items-center justify-between cursor-pointer" key={i}>
                                     <div className=" flex gap-[20px] items-center">
                                         <div className="avatar online">
@@ -75,7 +82,7 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div className="divider max-w-md m-auto"></div>
-                            </Fragment>
+                            </Link>
                         ))
                     }
                 </div>
