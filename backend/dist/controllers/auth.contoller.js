@@ -150,10 +150,69 @@ export const Login = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+/* login with otp */
+export const LoginWithOtp = async (req, res) => {
+    try {
+        const { phone } = req.body;
+        if (!phone)
+            return res.status(400).json({ error: "Please enter phone number" });
+        const user = await User.findOne({ phone });
+        if (!user)
+            return res.status(400).json({ error: "Wrong phone number" });
+        /* send otp */
+        const verification = await client.verify
+            .services(process.env.VERIFY_SERVICE_SID)
+            .verifications.create({ to: `+91${phone}`, channel: "sms" });
+        res.status(200).json({
+            message: `otp send to +91${phone}`,
+            status: verification.status,
+            user,
+        });
+    }
+    catch (error) {
+        console.log("LogigWithOtp Controller Error", error.message);
+        res.status(500).json({ error: error.message });
+    }
+};
+/* verify login otp */
+export const verifyLoginOtp = async (req, res) => {
+    try {
+        const { phone, otp } = req.body;
+        if (!otp)
+            return res.status(400).json({ error: "Please enter otp" });
+        if (!phone || !otp)
+            return res
+                .status(400)
+                .json({ error: "Phone number and otp both required" });
+        const verification_check = await client.verify
+            .services(process.env.VERIFY_SERVICE_SID)
+            .verificationChecks.create({ to: `+91${phone} `, code: otp });
+        if (verification_check.status === "pending")
+            return res.json({ message: `Enter correct otp` });
+        const user = await User.findOne({ phone });
+        if (!user)
+            return res.status(400).json({ error: "Wrong phone number" });
+        /* generate token */
+        let token = jwt.sign({ userId: user?._id }, process.env.JWT_SECRETE, {
+            expiresIn: "30d",
+        });
+        res
+            .cookie("mca-token", token, {
+            maxAge: 24 * 60 * 60 * 60 * 1000,
+            httpOnly: true,
+        })
+            .status(200)
+            .json({ message: "login successful" });
+    }
+    catch (error) {
+        console.log("verifyLogin Controller Error", error.message);
+        res.status(500).json({ error: error.message });
+    }
+};
 /* logout */
 export const Logout = async (req, res) => {
     try {
-        return res
+        res
             .cookie("mca-token", "", {
             maxAge: 0,
             httpOnly: true,
@@ -162,7 +221,7 @@ export const Logout = async (req, res) => {
             .json({ message: "logout successful" });
     }
     catch (error) {
-        console.log("Login Controller Error", error.message);
+        console.log("Logout Controller Error", error.message);
         res.status(500).json({ error: error.message });
     }
 };
