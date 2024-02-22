@@ -13,7 +13,7 @@ export const protactRoute = async (req, res, next) => {
         }));
         if (!user)
             return res.status(400).json({ error: "Unauthorized" });
-        req.body.user = user;
+        req.user = user;
         next();
     }
     catch (error) {

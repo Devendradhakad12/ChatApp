@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
   {
+  
     phone: {
       type: Number,
       unique: true,
@@ -20,9 +21,9 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    avatar:{
-      type:String
-    }
+    avatar: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

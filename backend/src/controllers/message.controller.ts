@@ -1,12 +1,13 @@
-import { Request, Response } from "express";
+import { Response } from "express";
+import { CustomRequest } from "../middlewares/protactedRoute.js";
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
 
-export const sendMessage = async (req: Request, res: Response) => {
+export const sendMessage = async (req: CustomRequest, res: Response) => {
   try {
-    const { message, reciverId, user } = req.body;
-    const senderId = user._id;
-
+    const { message } = req.body;
+    const { reciverId } = req.params;
+    const senderId = req.user?._id;
     if (!reciverId || !message)
       return res
         .status(400)

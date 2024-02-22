@@ -6,10 +6,13 @@ export interface CustomJwt extends Request {
   token: string | JwtPayload;
   userId: string;
 }
- 
+
+export interface CustomRequest extends Request {
+  user?: any;
+}
 
 export const protactRoute = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -25,7 +28,7 @@ export const protactRoute = async (
       _id: verifyToken.userId,
     })) as typeof User;
     if (!user) return res.status(400).json({ error: "Unauthorized" });
-    req.body.user = user;
+    req.user = user;
     next();
   } catch (error: any) {
     console.log("protectRouter error", error.message);

@@ -2,8 +2,9 @@ import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
 export const sendMessage = async (req, res) => {
     try {
-        const { message, reciverId, user } = req.body;
-        const senderId = user._id;
+        const { message } = req.body;
+        const { reciverId } = req.params;
+        const senderId = req.user?._id;
         if (!reciverId || !message)
             return res
                 .status(400)
