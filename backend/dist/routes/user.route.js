@@ -1,11 +1,6 @@
 import { Router } from "express";
-import { sendMessage } from "../controllers/message.controller.js";
+import { getAllUser } from "../controllers/user.controller.js";
 import { protactRoute } from "../middlewares/protactedRoute.js";
-
 const route = Router();
-
-/* signup */
-route.post("/send",protactRoute, sendMessage);
-
-
+route.get("/get", protactRoute, getAllUser);
 export default route;
