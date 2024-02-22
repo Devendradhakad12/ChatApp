@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { connectToDB } from "./utils/db.js";
 import AuthRoute from "./routes/auth.route.js";
+import MessageRoute from "./routes/message.route.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
 const app = express();
@@ -10,6 +11,7 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", AuthRoute);
+app.use("/api/message", MessageRoute);
 app.get("*", (req, res) => {
     res.send("Welcome to the world of chat");
 });

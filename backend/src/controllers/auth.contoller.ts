@@ -26,9 +26,9 @@ export const SignUp = async (
       return res.status(400).json({ error: "User already exists" });
 
     /* send otp */
-    const verification = await client.verify
+    /*     const verification = await client.verify
       .services(process.env.VERIFY_SERVICE_SID!)
-      .verifications.create({ to: `+91${phone}`, channel: "sms" });
+      .verifications.create({ to: `+91${phone}`, channel: "sms" }); */
 
     /* create user */
     const saltRounds = 10;
@@ -38,11 +38,22 @@ export const SignUp = async (
       fullName,
       password: hashPassword,
     });
-    res.status(200).json({
-      message: `otp sent to +91${phone}`,
-      user,
-      status: verification.status,
+
+    /* generate token */
+    let token = jwt.sign({ userId: user?._id }, process.env.JWT_SECRETE!, {
+      expiresIn: "30d",
     });
+
+    res
+      .cookie("mcatoken", token, {
+        maxAge: 24 * 60 * 60 * 60 * 1000,
+        httpOnly: true,
+      })
+      .status(200)
+      .json({
+        message:"Signup successful", //`otp sent to +91${phone}`,
+        user,
+      });
   } catch (error: any) {
     console.log("SignUp Controller Error", error);
     res.status(500).json({ error: error.message });
@@ -119,7 +130,7 @@ export const VerifyUser = async (req: Request, res: Response) => {
       expiresIn: "30d",
     });
     res
-      .cookie("mca-token", token, {
+      .cookie("mcatoken", token, {
         maxAge: 24 * 60 * 60 * 60 * 1000,
         httpOnly: true,
       })
@@ -154,7 +165,7 @@ export const Login = async (req: Request, res: Response) => {
     });
 
     res
-      .cookie("mca-token", token, {
+      .cookie("mcatoken", token, {
         maxAge: 24 * 60 * 60 * 60 * 1000,
         httpOnly: true,
       })
@@ -211,7 +222,7 @@ export const verifyLoginOtp = async (req: Request, res: Response) => {
       expiresIn: "30d",
     });
     res
-      .cookie("mca-token", token, {
+      .cookie("mcatoken", token, {
         maxAge: 24 * 60 * 60 * 60 * 1000,
         httpOnly: true,
       })
@@ -227,7 +238,7 @@ export const verifyLoginOtp = async (req: Request, res: Response) => {
 export const Logout = async (req: Request, res: Response) => {
   try {
     res
-      .cookie("mca-token", "", {
+      .cookie("mcatoken", "", {
         maxAge: 0,
         httpOnly: true,
       })
