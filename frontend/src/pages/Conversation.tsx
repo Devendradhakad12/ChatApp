@@ -1,5 +1,6 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { GiArrowWings } from "react-icons/gi";
+import { FaHome } from "react-icons/fa";
 
 const Conversation = () => {
 
@@ -53,14 +54,15 @@ const Conversation = () => {
             <div className="h-[80%] lg:w-[50%] md:w-[70%] w-[90%] rounded-xl border-2 border-white/60 relative">
 
                 {/* search bar */}
-                <div className="mt-1 sm:mx-auto mx-3 h-[80px] border-b border-white/20 flex justify-between items-center px-[10%]">
+                <div className="mt-1 sm:mx-auto mx-3 h-[80px] border-b border-white/20 flex justify-between items-center px-[6%]">
                     <div className="avatar online">
                         <div className="w-16 rounded-full">
                             <img src={"https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"} className="w-[50px] h-[50px]" />
                         </div>
                     </div>
-                    <div>
+                    <div className="flex gap-[20px] items-center">
                         <h2 className="text-[25px]">User Name</h2>
+                        <Link to={"/"} className="text-[30px]"><FaHome /></Link>
                     </div>
                 </div>
 
