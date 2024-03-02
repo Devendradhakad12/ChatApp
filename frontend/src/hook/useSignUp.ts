@@ -22,6 +22,7 @@ export const useSignup = () => {
         fullName,
       });
       let data = await res.data;
+      localStorage.setItem("mca-user", JSON.stringify(data.user));
       setUser(data);
       navigate("/");
     } catch (error) {

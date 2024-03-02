@@ -18,7 +18,6 @@ export const useLogin = () => {
       setLoading(true);
       let res = await axios.post("/api/auth/login", { phone, password });
       let data = await res.data;
-      console.log(data);
       localStorage.setItem("mca-user", JSON.stringify(data.user));
       setUser(data.user);
       return navigate("/");
