@@ -13,7 +13,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={user ? <Home /> : <Navigate to={"/login"} />} />
-          <Route path="/:id" element={user ? <Conversation /> : <Navigate to={"/login"} />} />
+          <Route path="conversation/:id" element={user ? <Conversation /> : <Navigate to={"/login"} />} />
           <Route path="/login" element={!user ? <Login /> : <Navigate to={"/"} />} />
           <Route path="/signup" element={!user ? <SignUp /> : <Navigate to={"/"} />} />
         </Routes>
