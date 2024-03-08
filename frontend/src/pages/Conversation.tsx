@@ -6,6 +6,8 @@ const Conversation = () => {
 
     const userId = useParams().id
 
+    console.log(userId)
+
     const messages = [
         {
             name: "dev",

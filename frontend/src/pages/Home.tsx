@@ -1,26 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useGetConversation from "../hook/useGetConversations";
 const Home = () => {
 
-    const [usersArr, setUsersArr] = useState([{ fullName: "", _id: "" }]);
-    const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        let getUsers = async () => {
-            try {
-                setLoading(true)
-                let res = await axios.get("/api/users/get");
-                const data = await res.data;
-                setUsersArr(data);
-            } catch (error) {
-                console.log(error)
-            } finally {
-                setLoading(false)
-            }
-        }
-        getUsers()
-    }, [])
+    const { conversations, loading } = useGetConversation()
 
     return (
         <div className="flex justify-center items-center h-screen">
@@ -38,17 +20,16 @@ const Home = () => {
                         <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required />
                         <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                     </div>
-
                 </div>
 
                 {/* Conversations */}
                 {
                     loading ? <></> : <>
                         {
-                            usersArr[0].fullName ? <>
+                            conversations.length ? <>
                                 <div className="overflow-auto scroll-hide h-[80%] mt-7">
                                     {
-                                        usersArr.map((user, i) => (
+                                        conversations.map((user, i) => (
                                             <Link to={`conversation/${user._id}`} key={i}>
                                                 <div className="max-w-md mt-1 sm:mx-auto mx-3 h-[80px] px-3 py-1 flex items-center justify-between cursor-pointer" key={i}>
                                                     <div className=" flex gap-[20px] items-center">
